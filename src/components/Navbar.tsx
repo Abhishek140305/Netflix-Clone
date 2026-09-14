@@ -1,0 +1,12 @@
+'use client';
+import { Bell, ChevronDown, Search, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+export function Navbar() {
+  const [scrolled, setScrolled] = useState(false); const [searching, setSearching] = useState(false); const [profileOpen, setProfileOpen] = useState(false);
+  useEffect(() => { const onScroll = () => setScrolled(window.scrollY > 50); onScroll(); window.addEventListener('scroll', onScroll); return () => window.removeEventListener('scroll', onScroll); }, []);
+  return <header className={`fixed inset-x-0 top-0 z-40 flex h-[68px] items-center justify-between px-4 transition-colors duration-500 md:px-12 ${scrolled ? 'bg-[#141414]' : 'bg-gradient-to-b from-black/70 to-transparent'}`}>
+    <div className="flex items-center gap-7"><a className="text-[28px] font-black tracking-[-2px] text-netflix md:text-[32px]" href="#top">NETFLIX</a><nav className="hidden gap-5 text-sm text-[#e5e5e5] lg:flex"><a href="#top">Home</a><a href="#tv">TV Shows</a><a href="#movies">Movies</a><a href="#popular">New &amp; Popular</a><a href="#my-list">My List</a></nav></div>
+    <div className="flex items-center gap-4"><div className={`flex h-8 items-center border border-white bg-black/70 transition-all duration-300 ${searching ? 'w-40 px-2 md:w-64' : 'w-8 justify-center border-transparent bg-transparent'}`}><Search size={19} onClick={() => setSearching(true)} className="shrink-0 cursor-pointer" />{searching && <><input autoFocus aria-label="Search" className="ml-2 min-w-0 flex-1 bg-transparent text-sm outline-none" placeholder="Titles, people, genres" /><X size={16} className="cursor-pointer" onClick={() => setSearching(false)} /></>}</div><Bell size={20} className="hidden cursor-pointer sm:block" /><div className="relative"><button aria-label="Profile menu" onClick={() => setProfileOpen(!profileOpen)} className="flex items-center gap-1"><span className="grid h-8 w-8 place-items-center rounded bg-gradient-to-br from-red-500 to-purple-700 text-xs font-bold">K</span><ChevronDown size={15} /></button>{profileOpen && <div className="absolute right-0 top-11 w-44 border border-zinc-600 bg-black py-2 text-sm shadow-xl"><button className="w-full px-4 py-2 text-left hover:bg-zinc-800">Manage Profiles</button><button className="w-full px-4 py-2 text-left hover:bg-zinc-800">Account</button><button className="w-full px-4 py-2 text-left hover:bg-zinc-800">Sign out of Netflix</button></div>}</div></div>
+  </header>;
+}
